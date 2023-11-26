@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include <stdlib.h>
 
 /**
@@ -10,14 +11,16 @@
  */
 int main(int argc, char *argv[])
 {
+	clock_t begin, end;
+	double time_spent;
 	FILE *stream;
 	char *line = NULL;
 	size_t len = 0;
-	int number;
-	int p, q;
-	int n;
+	long int number;
+	long int p, q, n;
 	int flag;
 
+	begin = clock();
 	if (argc != 2)
 		exit(EXIT_FAILURE);
 	
@@ -34,12 +37,12 @@ int main(int argc, char *argv[])
 		while (p < number)
 		{
 			q = 1;
-			while (q < number)
+			while (q <= (number / 2))
 			{
 				n = p * q;
 				if (n == number)
 				{
-					printf("%d=%d*%d\n", n, p, q);
+					printf("%ld=%ld*%ld\n", n, p, q);
 					flag = 0;
 					break;
 				}
@@ -52,6 +55,9 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	end = clock();
+	time_spent = (double) (end - begin) / CLOCKS_PER_SEC;
+	printf("time spent: %f\n", time_spent);
 	free(line);
 	fclose(stream);
 	exit(EXIT_SUCCESS);
